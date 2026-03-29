@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\ProductController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\ProductController;
 */
 Auth::routes();
 
-Route::group(['middleware'=>'auth'],function(){
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -25,5 +23,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/products',ProductController::class);
-});
+Route::get('/products',[ProductController::class,'index']);
+
+Route::group(['middleware'=>'auth'],function(){});
