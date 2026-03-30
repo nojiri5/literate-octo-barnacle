@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Products;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -38,7 +38,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Product::create([
+            'user_id' => 1,
+            'name' => $request->name,
+            'image' => 0,
+            'amount' =>1000,
+            'description' => 'テスト',
+        ]);
+
+        return redirect('/products');
     }
 
     /**
