@@ -23,8 +23,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/products',[ProductController::class,'index']);
-Route::get('/products/create',[ProductController::class,'create']);
-Route::post('/products',[ProductController::class,'store']);
+Route::resource('products','ProductController');
 
 Route::group(['middleware'=>'auth'],function(){});
