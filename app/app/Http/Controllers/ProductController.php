@@ -38,7 +38,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        Product::create([
+        $product=Product::create([
             'user_id' => 1,
             'name' => $request->name,
             'image' => 0,
@@ -46,7 +46,7 @@ class ProductController extends Controller
             'description' => 'テスト',
         ]);
 
-        return redirect('/products');
+        return redirect->route('products.index');
     }
 
     /**

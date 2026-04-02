@@ -1,3 +1,7 @@
+@extends('layouts.app')
+
+@section('content')
+
 <a href="/products/create">商品登録へ</a>
 
 @if($products->isEmpty())
@@ -436,3 +440,5 @@
         </div>
       </div>
 </main> 
+
+@endsection
