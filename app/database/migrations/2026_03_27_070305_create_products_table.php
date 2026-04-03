@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('name',200);
-            $table->integer('image');
+            $table->string('image');
             $table->decimal('amount');
             $table->text('description');
             $table->timestamps();

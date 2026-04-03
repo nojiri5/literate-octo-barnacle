@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 
@@ -15,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('products.index',[
+        return view('admin.products.index',[
             'products'=> $products
         ]);
     }
@@ -27,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        return view('admin.products.create');
     }
 
     /**
@@ -38,6 +39,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         $product=Product::create([
             'user_id' => 1,
             'name' => $request->name,
@@ -46,7 +48,7 @@ class ProductController extends Controller
             'description' => 'テスト',
         ]);
 
-        return redirect()->route('products.index');
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -57,8 +59,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product=Product::findOrFail($id);
-        return view('products.show',compact('product'));
+        //
     }
 
     /**
@@ -69,7 +70,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product=Product::findOrFail($id);
+        return view('admin.products.edit',compact('product'));
     }
 
     /**
@@ -81,7 +83,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product->update([
+            'name'=>$request->name,
+            'amount'=>$request->amount,
+            'image'=>$request->image,
+            'description'=>$request->description,
+        ]);
+
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -92,18 +101,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+        $product= Product::findOrFail($id);
+        $product->delete();
 
-    public function search(Request $request)
-    {
-        $keyword=$request->keyword;
-
-        $product=Product::when($keyword,function ($query,$keyword){
-            $query->where('name','like',"%{$keyword}%")
-                  ->orWhere('description', 'like',"%{$keyword}%");
-        })->get();
-
-        return view('products.search', compact('products', 'keyword'));
+        return redirect()->route('admin.products.index');
     }
 }
