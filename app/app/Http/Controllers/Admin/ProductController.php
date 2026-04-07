@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -39,13 +40,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $imagePath=null;
+
+        if ($request->hasFile('image')){
+            $imagePath=$request->file('image')->store('products','public');
+        }
 
         $product=Product::create([
-            'user_id' => 1,
+            'user_id' => Auth::id(),
             'name' => $request->name,
-            'image' => 0,
-            'amount' =>1000,
-            'description' => 'テスト',
+            'image' => $imagePath,
+            'amount' =>$request->amount,
+            'description' => $request->description,
         ]);
 
         return redirect()->route('admin.products.index');

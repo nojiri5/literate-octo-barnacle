@@ -25,7 +25,7 @@ Route::get('/products/{id}',[ProductController::class,'show'])->name('prodcuts.s
 
 
 
-Route::prefix('admin')->group(function(){
+Route::middleware('auth')->prefix('admin')->group(function(){
 Route::get('/products',[AdminProductController::class,'index'])->name('admin.products.index');
 Route::get('/products/create',[AdminProductController::class,'create'])->name('admin.products.create');
 Route::post('/products',[AdminProductController::class,'store'])->name('admin.products.store');
@@ -40,4 +40,3 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('products','ProductController');
 
-Route::group(['middleware'=>'auth'],function(){});
