@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Supprot\Facades\Storage;
 class ProductController extends Controller
 {
     /**
@@ -88,12 +88,24 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product->update([
-            'name'=>$request->name,
-            'amount'=>$request->amount,
-            'image'=>$request->image,
-            'description'=>$request->description,
-        ]);
+        $product = Product::findOrFail($id);
+
+        if($request->hasFile('image')){
+
+        if ($product->image && Storage::disk('public')->exists($product->image)){
+            Storage::disk('public')->delete('$product->image');
+        }
+            $path = $request->file('image')->store('products', 'public');
+            $product->image = $path;
+        }
+
+            $product->name = $request->name;
+            $product->amount = $request->amount;
+            $product->image = $request->image;
+            $product->description = $request->description;
+
+            $product->save();
+        
 
         return redirect()->route('admin.products.index');
     }
@@ -107,6 +119,11 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product= Product::findOrFail($id);
+
+         if ($product->image && Storage::disk('public')->exists($product->image)){
+            Storage::disk('public')->delete('$product->image');
+        }
+        
         $product->delete();
 
         return redirect()->route('admin.products.index');

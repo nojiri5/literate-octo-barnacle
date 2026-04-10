@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +22,11 @@ Auth::routes();
     
 Route::get('/main',[ProductController::class,'index'])->name('products.index'); 
 Route::get('/search',[ProductController::class,'search'])->name('products.search');
-Route::get('/products/{id}',[ProductController::class,'show'])->name('prodcuts.show');  
+Route::get('/products/{id}',[ProductController::class,'show'])->name('prodcuts.show'); 
+
+Route::get('/cart',[CartController::class,'index'])->name('cart.index');
+Route::post('/cart/add/{id}',[CartController::class,'add'])->name('cart.add');
+Route::post('/cart/remove/{id}',[CartController::class,'remove'])->name('cart.remove');
 
 
 

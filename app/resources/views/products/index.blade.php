@@ -19,6 +19,11 @@
             <p><img src="{{ url('storage/' , $product->image) }}" width="150"></P>
             <h3><a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a></h3>
             <p>価格: {{ $product->amount }}</p>
+            <p>{{ $product->description }}</p>
+            <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                @csrf
+                <button type="sumbit">カートに追加</button>
+            </form>
         </div>    
     @endforeach
     @endif

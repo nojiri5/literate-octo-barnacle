@@ -73,6 +73,8 @@
         </nav>
 
         <main class="py-4">
+
+        <a href="{{ route('cart.index') }}">カート</a>
             @yield('content')
         </main>
     </div>
