@@ -17,9 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('admin.products.index',[
-            'products'=> $products
-        ]);
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -40,13 +38,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         $imagePath=null;
 
         if ($request->hasFile('image')){
             $imagePath=$request->file('image')->store('products','public');
         }
 
-        $product=Product::create([
+        Product::create([
             'user_id' => Auth::id(),
             'name' => $request->name,
             'image' => $imagePath,

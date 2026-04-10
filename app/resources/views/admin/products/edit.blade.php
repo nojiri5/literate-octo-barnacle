@@ -13,12 +13,12 @@
         </ul>
     @endif
 
-    <form action="{{ route('admin.products.update', $product->id) }}" method="POST">
+    <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div>
             <label>画像</label><br>
-            <input type="text" name="image" value="{{ old('image', $product->image) }}">
+            <input type="file" name="image" value="{{ old('image', $product->image) }}">
         </div>
 
         <div>

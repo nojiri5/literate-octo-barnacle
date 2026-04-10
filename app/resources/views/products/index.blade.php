@@ -16,6 +16,7 @@
     @else
     @foreach ($products as $product)
         <div style="border:1px solid #ccc; padding:12px; margin-bottom:12px;">
+            <p><img src="{{ url('storage/' , $product->image) }}" width="150"></P>
             <h3><a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a></h3>
             <p>価格: {{ $product->amount }}</p>
         </div>    

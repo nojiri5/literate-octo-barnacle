@@ -14,9 +14,11 @@
 @else
     @foreach($products as $product)
         <div style="border:1px solid #ccc; padding:12px; margin-bottom:12px;">
+        <p><img src="{{ url('storage/' , $product->image) }}" width="150"></P>
         <h3>{{ $product->name }}</h3>
         <p>{{ $product->amount }}</p>
         <p>{{ $product->description }}</p>
+
 
         <a href="{{ route('admin.products.edit', $product->id) }}">編集</a>
 
