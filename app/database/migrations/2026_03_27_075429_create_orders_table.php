@@ -17,13 +17,7 @@ class CreateOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('cart_id');
-            $table->foreign('cart_id')->references('id')->on('carts');
-            $table->string('name',200);
-            $table->string('phone_number',20);
-            $table->string('postal_number',20);
-            $table->string('address',200);
-            $table->decimal('amount');
+            $table->integer('total');
             $table->timestamps();
         });
     }

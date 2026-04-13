@@ -30,7 +30,16 @@
         @endif
 
         <P>{{ $item['amount'] }}</p>
-        <p>数量:{{ $item['quantity'] }}</p>
+
+        <form action="{{ route('cart.update' , $item['id']) }}" method="POST">
+            @csrf
+            <input type ="number"
+                   name="quantity"
+                   value="{{ $item['quantity'] }}"
+                   min="0"
+                   onchange="this.form.submit()">
+        </form>
+         
         <p>小計:{{ $subtotal }}</p>
 
         <form action="{{ route('cart.remove', $item['id']) }}" method="POST">

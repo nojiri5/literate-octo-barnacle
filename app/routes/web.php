@@ -26,6 +26,7 @@ Route::get('/products/{id}',[ProductController::class,'show'])->name('prodcuts.s
 
 Route::get('/cart',[CartController::class,'index'])->name('cart.index');
 Route::post('/cart/add/{id}',[CartController::class,'add'])->name('cart.add');
+Route::post('/cart/update/{id}',[CartController::class, 'updateQuantity'])->name('cart.update');
 Route::post('/cart/remove/{id}',[CartController::class,'remove'])->name('cart.remove');
 
 

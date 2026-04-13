@@ -35,6 +35,23 @@ class CartController extends Controller
 
         return redirect()->route('cart.index')->with('success','カートに追加しました');
     }
+
+    public function updateQuantity(Request $request, $id )
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])){
+            $quantity = (int) $request->quantity;
+
+            if($quantity <= 0){
+                unset($cart[$id]);
+            }else{
+                $cart[$id]['quantity']=$quantity;
+            }
+            session()->put('cart', $cart);
+        }
+        return redirect()->route('cart.index');
+    }
     
     public function remove($id)
     {
