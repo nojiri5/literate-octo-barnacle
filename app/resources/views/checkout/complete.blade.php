@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
-@section('title','購入完了')
-
 @section('content')
-    <h2>購入完了画面</h2>
+    <h2>購入完了</h2>
+    <p>ご購入ありがとうございました。</p>
+
+    <a href="{{ route('products.index') }}">商品一覧へ戻る</a>
+    
 @endsection

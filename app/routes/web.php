@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,17 +22,26 @@ Auth::routes();
 
     Route::get('/register/confirm',function(){return view('auth.confirm');})->name('register.confirm');
     
+//商品一覧
 Route::get('/main',[ProductController::class,'index'])->name('products.index'); 
 Route::get('/search',[ProductController::class,'search'])->name('products.search');
 Route::get('/products/{id}',[ProductController::class,'show'])->name('prodcuts.show'); 
 
+//カート
 Route::get('/cart',[CartController::class,'index'])->name('cart.index');
 Route::post('/cart/add/{id}',[CartController::class,'add'])->name('cart.add');
 Route::post('/cart/update/{id}',[CartController::class, 'updateQuantity'])->name('cart.update');
 Route::post('/cart/remove/{id}',[CartController::class,'remove'])->name('cart.remove');
 
+//購入確認
+Route::get('/checkout',[CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/complete',[CheckoutController::class, 'complete'])->name('checkout.complete');
+
+//購入履歴
+Route::get('/orders/history',[OrderController::class,'history'])->name('orders.history');
 
 
+//事業者専用
 Route::middleware('auth')->prefix('admin')->group(function(){
 Route::get('/products',[AdminProductController::class,'index'])->name('admin.products.index');
 Route::get('/products/create',[AdminProductController::class,'create'])->name('admin.products.create');

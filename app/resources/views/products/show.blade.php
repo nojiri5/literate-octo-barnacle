@@ -14,7 +14,7 @@
         @csrf
         <button type="sumbit">カートに追加</button>
     </form>
-    
+
     <a href="{{ route('products.index') }}">一覧へ戻る</a>
 
 @endsection
