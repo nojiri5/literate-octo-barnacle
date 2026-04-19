@@ -90,12 +90,27 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $keyword=$request->keyword;
+        $min = $request->min;
+        $max = $request->max;
+
+        $query = Product::query();
 
         $product=Product::when($keyword,function ($query,$keyword){
             $query->where('name','like',"%{$keyword}%")
                   ->orWhere('description', 'like',"%{$keyword}%");
-        })->get();
+        });
 
-        return view('products.search', compact('products', 'keyword'));
+        if ($min !== null && $min !==''){
+            $query -> where('amount', '>=',$min);
+        }
+
+        if ($max !== null && $max !==''){
+            $query -> where('amount','<=',$max);
+        }
+
+        $products = $query -> get();
+
+
+        return view('products.search', compact('products', 'keyword', 'min', 'max'));
     }
 }

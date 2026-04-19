@@ -6,7 +6,19 @@
     <h2>商品一覧</h2>
 
     <form action="{{ route('products.search') }}" method="GET">
-        <input type="text" name="keyword" placeholder="ワード検索">
+        <div>
+            <input type="text" name="keyword" placeholder="ワード検索">
+        </div>
+
+        <div>
+            <label>最低金額</label><br>
+            <input type="number" name="min" placeholder="例: 1000">
+        </div>
+
+        <div>
+            <label>最高金額</label><br>
+            <input type="number" name="max" placeholder="例: 5000">
+        </div>
 
         <button type="sumbit">検索</button>
     </form>
