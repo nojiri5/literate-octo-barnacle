@@ -26,6 +26,7 @@ class CheckoutController extends Controller
         return view('checkout.index', compact('cart', 'total'));
     }
 
+
     public function complete (Request $request)
     {
     $cart = session()-> get('cart', []);
@@ -37,6 +38,30 @@ class CheckoutController extends Controller
     if (!Auth::check()){
         return redirect()->route('login')->with('success','購入にはログインが必要です');
     }
+
+
+    $request->validate([
+        'full_name' => 'required',
+        'phone' => 'required',
+        'postal_code' => 'required',
+        'address' => 'required',
+    ], [
+        'full_name.required' => '氏名は必須です',
+        'phone.required' => '電話番号は必須です',
+        'postal_code.required' => '郵便番号は必須です',
+        'address.required' => '住所は必須です',
+    ]);
+
+    $user = Auth::user();
+
+   
+    $user->update([
+        'full_name' => $request->full_name,
+        'phone' => $request->phone,
+        'postal_code' => $request->postal_code,
+        'address' => $request->address,
+    ]);
+
 
     $total = 0;
 

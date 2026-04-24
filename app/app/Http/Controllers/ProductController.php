@@ -49,7 +49,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product=Product::findOrFail($id);
+        $product=Product::with('reviews')->findOrFail($id);
         return view('products.show',compact('product'));
     }
 
@@ -95,9 +95,11 @@ class ProductController extends Controller
 
         $query = Product::query();
 
-        $product=Product::when($keyword,function ($query,$keyword){
-            $query->where('name','like',"%{$keyword}%")
+        $query->when($keyword,function ($query,$keyword){
+            $query->where(function ($q) use ($keyword){
+                $q->where('name','like',"%{$keyword}%")
                   ->orWhere('description', 'like',"%{$keyword}%");
+            });
         });
 
         if ($min !== null && $min !==''){

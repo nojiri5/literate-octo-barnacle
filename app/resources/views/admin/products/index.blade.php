@@ -32,4 +32,6 @@
 
     <a href="{{ route('admin.products.create') }}">商品登録</a>
 
+    <a href="{{ route('admin.dashboard') }}">戻る</a>
+
 @endsection

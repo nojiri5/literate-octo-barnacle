@@ -128,4 +128,17 @@ class ProductController extends Controller
 
         return redirect()->route('admin.products.index');
     }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware(function ($request, $next) {
+            if (!auth()->user()->is_admin) {
+            abort(403);
+            }
+            return $next($request);
+        });
+    }
+
 }

@@ -14,7 +14,7 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -69,7 +69,13 @@
                         @endguest
                     </ul>
                 </div>
+
+                @auth
+                <a href="/admin/users" class="btn btn-outline-dark me-2">ユーザー管理</a>
+                <a href="/admin/products" class="btn btn-outline-dark">商品管理</a>
+                @endauth
             </div>
+
         </nav>
 
         <main class="py-4">

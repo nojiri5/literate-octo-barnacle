@@ -23,12 +23,49 @@
     @endforeach
     <h3>合計金額: {{ $total }}</h3>
 
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        @foreach ($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
+    @endif
+
     <form action="{{ route('checkout.complete') }}" method="POST">
-        @csrf
-        <button type="sumbit">購入する</button>
+    @csrf
+
+    <h4>お届け先情報</h4>
+
+    <div class="mb-2">
+        <input type="text" name="full_name" class="form-control"
+               placeholder="氏名"
+               value="{{ old('full_name', auth()->user()->full_name) }}">
+    </div>
+
+    <div class="mb-2">
+        <input type="text" name="phone" class="form-control"
+               placeholder="電話番号"
+               value="{{ old('phone', auth()->user()->phone) }}">
+    </div>
+
+    <div class="mb-2">
+        <input type="text" name="postal_code" class="form-control"
+               placeholder="郵便番号"
+               value="{{ old('postal_code', auth()->user()->postal_code) }}">
+    </div>
+
+    <div class="mb-3">
+        <input type="text" name="address" class="form-control"
+               placeholder="住所"
+               value="{{ old('address', auth()->user()->address) }}">
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        購入する
+    </button>
     </form>
 
+     @endif
     <a href ="{{ route('cart.index') }}">カートに戻る</a>
-    @endif
 
 @endsection

@@ -7,8 +7,13 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\FavoriteController;
+
+
 /*
-|--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -23,6 +28,7 @@ Auth::routes();
     Route::get('/register/confirm',function(){return view('auth.confirm');})->name('register.confirm');
     
 //商品一覧
+Route::resource('products','ProductController');
 Route::get('/main',[ProductController::class,'index'])->name('products.index'); 
 Route::get('/search',[ProductController::class,'search'])->name('products.search');
 Route::get('/products/{id}',[ProductController::class,'show'])->name('prodcuts.show'); 
@@ -40,20 +46,45 @@ Route::post('/checkout/complete',[CheckoutController::class, 'complete'])->name(
 //購入履歴
 Route::get('/orders/history',[OrderController::class,'history'])->name('orders.history');
 
+//レビュー
+Route::get('/reviews/{productId}',[ReviewController::class, 'create'])->name('reviews.create');
+Route::post('/reviews/{productId}',[ReviewController::class, 'store'])->name('reviews.store');
 
-//事業者専用
-Route::middleware('auth')->prefix('admin')->group(function(){
-Route::get('/products',[AdminProductController::class,'index'])->name('admin.products.index');
-Route::get('/products/create',[AdminProductController::class,'create'])->name('admin.products.create');
-Route::post('/products',[AdminProductController::class,'store'])->name('admin.products.store');
-Route::get('/products/{id}/edit',[AdminProductController::class,'edit'])->name('admin.products.edit');
-Route::post('/products/{id}/update',[AdminProductController::class,'update'])->name('admin.products.update');
-Route::post('/products/{id}/delete',[AdminProductController::class,'destroy'])->name('admin.products.destroy');
+//マイページ
+Route::get('/mypage', [UserController::class, 'show'])->name('mypage');
+Route::get('/mypage/edit', [UserController::class, 'edit'])->name('mypage.edit');
+Route::post('/mypage/update', [UserController::class, 'update'])->name('mypage.update');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/{productId}', [FavoriteController::class, 'store'])->name('favorites.store');
+    Route::post('/favorites/{productId}/delete', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+//事業者専用
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function(){
+    Route::get('/', function () {
+        if (!auth()->user()->is_admin) {
+            abort(403);
+        }
+        return view('admin.dashboard');
+    })->name('dashboard');
+
+Route::resource('products', 'Admin\ProductController');
+Route::get('/users',[AdminUserController::class,'index'])->name('users.index');
+Route::get('/products',[AdminProductController::class,'index'])->name('products.index');
+Route::get('/products/create',[AdminProductController::class,'create'])->name('products.create');
+Route::post('/products',[AdminProductController::class,'store'])->name('products.store');
+Route::get('/products/{id}/edit',[AdminProductController::class,'edit'])->name('products.edit');
+Route::post('/products/{id}/update',[AdminProductController::class,'update'])->name('products.update');
+Route::post('/products/{id}/delete',[AdminProductController::class,'destroy'])->name('products.destroy');
+});
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('products','ProductController');
+Route::get('/home', 'HomeController@index')->name('home');
+
 

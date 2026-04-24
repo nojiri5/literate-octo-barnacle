@@ -54,4 +54,6 @@
 
     <a href="{{ route('products.index') }}">一覧へ戻る</a>
 
+    <a href ="{{ route('checkout.index') }}">購入画面に進む</a>
+
 @endsection
